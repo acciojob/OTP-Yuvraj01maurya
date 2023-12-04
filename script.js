@@ -1,15 +1,19 @@
-let codeInputs = document.querySelectorAll('.code');
+const inputs = document.querySelectorAll('.code');
 
-function onInput(e) {
-    if (e.target.value) {
-        let nextInput = codeInputs[Array.from(codeInputs).indexOf(e.target) + 1];
-        if (nextInput) {
-            nextInput.focus();
-        }
-    } else {
-        let prevInput = codeInputs[Array.from(codeInputs).indexOf(e.target) - 1];
-        if (prevInput) {
-            prevInput.focus();
-        }
+// Add event listeners to inputs
+inputs.forEach((input, index) => {
+  input.addEventListener('input', (event) => {
+    const currentValue = event.target.value;
+    if (currentValue.length === 1 && index < inputs.length - 1) {
+      inputs[index + 1].focus();
     }
-}
+  });
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Backspace' && index > 0) {
+      if (inputs[index].value === '') {
+        inputs[index - 1].focus();
+      }
+    }
+  });
+});
